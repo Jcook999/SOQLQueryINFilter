@@ -1,6 +1,6 @@
 # SOQLQueryINFilter
 Apex Action called by flows to support the SOQL 'IN' filter parameter
-Input Parameters:
+# Input Parameters:
   label='Api name of the object' required:true
     Description: The API name of the child object
   label='API names of the fields to query(comma separated)' required = true
@@ -17,6 +17,6 @@ Input Parameters:
     Description: A boolean value indicating if you want to specify a limit on the number of records returned
   label='Limit size(no comma)' required = false
     Description: Integer value of the limit to be imposed
-Output Parameters:
+# Output Parameters:
   label='Child records'
     Description: The record collection variable that the result child records will be stored in
