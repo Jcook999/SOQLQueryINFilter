@@ -3,6 +3,7 @@ public class SOQLQueryINFilter_Test {
 
     //list variables used by all test methods
     public static list<Account> parentAccounts = new list<Account>();
+    public static list<Id> parentIds = new list<Id>();
     public static list<Account> childAccounts = new list<Account>();
     
     //public class used to populate and insert the records in the public list variables
@@ -13,6 +14,10 @@ public class SOQLQueryINFilter_Test {
         }
         
         insert parentAccounts;
+        
+        for(Account acc: parentAccounts){
+            parentIds.add(acc.Id);
+        }
         
         for(integer i = 0; i < 10; i++){
             
@@ -42,7 +47,7 @@ public class SOQLQueryINFilter_Test {
         testParams[0].objectApiName = 'Account';
         testParams[0].fieldsToQuery = 'Name, Id, ParentId';
         testParams[0].parentFieldName = 'ParentId';
-        testParams[0].parentRecords = parentAccounts;
+        testParams[0].parentIds = parentIds;
         
         //run the actual query method to get back results
         list<SOQLQueryINFilter.QueryResults> testResults = SOQLQueryINFilter.getQueryRecords(testParams);
@@ -71,7 +76,7 @@ public class SOQLQueryINFilter_Test {
         testParams[0].objectApiName = 'Account';
         testParams[0].fieldsToQuery = 'Name, Id, ParentId';
         testParams[0].parentFieldName = 'ParentId';
-        testParams[0].parentRecords = parentAccounts;
+        testParams[0].parentIds = parentIds;
         testParams[0].addFilters = true;
         testParams[0].addFilterString = 'name = \'childTestLow\'';
         
@@ -102,7 +107,7 @@ public class SOQLQueryINFilter_Test {
         testParams[0].objectApiName = 'Account';
         testParams[0].fieldsToQuery = 'Name, Id, ParentId';
         testParams[0].parentFieldName = 'ParentId';
-        testParams[0].parentRecords = parentAccounts;
+        testParams[0].parentIds = parentIds;
         testParams[0].addLimit = true;
         testParams[0].recordLimit = 5;
         
@@ -133,7 +138,7 @@ public class SOQLQueryINFilter_Test {
         testParams[0].objectApiName = 'Account';
         testParams[0].fieldsToQuery = 'Name, Id, ParentId';
         testParams[0].parentFieldName = 'ParentId';
-        testParams[0].parentRecords = parentAccounts;
+        testParams[0].parentIds = parentIds;
         testParams[0].addLimit = true;
         testParams[0].recordLimit = -1;
         
@@ -161,7 +166,7 @@ public class SOQLQueryINFilter_Test {
         testParams[0].objectApiName = 'Account';
         testParams[0].fieldsToQuery = 'Name, Id, ParentId';
         testParams[0].parentFieldName = 'ParentId';
-        testParams[0].parentRecords = parentAccounts;
+        testParams[0].parentIds = parentIds;
         testParams[0].addLimit = true;
         testParams[0].recordLimit = 50001;
         

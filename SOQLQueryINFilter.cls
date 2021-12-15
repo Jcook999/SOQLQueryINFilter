@@ -11,12 +11,12 @@ public class SOQLQueryINFilter {
             throw new FlowApexActionException('You cannot query more than 50000 records.');
         
         //take the record collection variable and convert the ids into a list of strings so they can be queried against
-        list<String> parentIds = new list<String>();
-        for(SObject s : queryParams[0].parentRecords){
+        list<String> parentIds = queryParams[0].parentIds;//new list<String>();
+        /*for(SObject s : queryParams[0].parentRecords){
             if(s != null)
             	parentIds.add((String)s.get('Id'));
             	system.debug('parentID: ' + (String)s.get('Id'));
-        }
+        }*/
         
         //4 separate query strings are combined into the queryFull string depending on the optional parameters specified
         string query1 = 'Select '+ queryParams[0].fieldsToQuery + ' FROM ' +  queryParams[0].objectApiName + ' WHERE '; //always included
@@ -62,8 +62,8 @@ public class SOQLQueryINFilter {
         @InvocableVariable(label='Api name of the parent field' required = true )
         public string parentFieldName;
         
-        @InvocableVariable(label='Parent records' required = true)
-        public list<SObject> parentRecords;
+        @InvocableVariable(label='Parent records (IDs Collection Only)' required = true)
+        public list<Id> parentIds;
         
         @InvocableVariable(label='Include additional filters?' required = false)
         public boolean addFilters = false;
