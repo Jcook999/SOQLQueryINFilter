@@ -1,5 +1,11 @@
 # SOQLQueryINFilter
 Apex Action called by flows to support the SOQL 'IN' filter parameter. Currently requires a parent with an IN comparison in the query but this could be made optional.
+
+<a href="https://githubsfdeploy.herokuapp.com">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
+</a>
+
 ## Input Parameters:  
   - label='Api name of the object' required:true  
     - Description: The API name of the child object.  
