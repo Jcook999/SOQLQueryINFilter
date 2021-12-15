@@ -8,7 +8,7 @@ Apex Action called by flows to support the SOQL 'IN' filter parameter. Currently
   - label='Api name of the parent field' required = true  
     - Description: The API name of the field that links the parent and the child ex: ParentId.  
   - label='Parent records' required = true  
-    - Description: The collection variable of RECORDS(not a text collection) that the parent records are in.  
+    - Description: The collection variable of IDs(not a text collection) that the parent records are in.  
   - label='Include additional filters?' required = false  
     - Description: A boolean value indicating if you wish to provide filters beyond just *child records IN list of parent records*. If TRUE then you must provide and additional filter string.  
   - label='Additional filter parameters' required = false  
