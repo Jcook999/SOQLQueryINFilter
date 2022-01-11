@@ -10,12 +10,27 @@ public class SOQLQueryINFilter {
         if(queryParams[0].recordLimit > 50000)
             throw new FlowApexActionException('You cannot query more than 50000 records.');
         
-        //take the record collection variable and convert the ids into a list of strings so they can be queried against
+        //verify that either a parent record or parent id list is provided
+        if(queryParams[0].parentRecords == null && queryParams[0].parentIds == null && queryParams[0].adjacentRecords == null){
+            throw new FlowApexActionException('You must specify 1 of these 3: a list of parent records, a list of parent ids, or a list of adjacent records with a common field on the adjacent record.');
+        }
+        
+        //take the record collection variable and convert the ids into a list of strings so they can be queried against   
         list<String> parentIds = new list<String>();
-        for(SObject s : queryParams[0].parentRecords){
-            if(s != null)
-            	parentIds.add((String)s.get('Id'));
-            	system.debug('parentID: ' + (String)s.get('Id'));
+        if(queryParams[0].parentIds == null && queryParams[0].adjacentRecords == null){
+            for(SObject s : queryParams[0].parentRecords){
+                if(s != null)
+                    parentIds.add((String)s.get('Id'));
+                    system.debug('parentID: ' + (String)s.get('Id'));
+            }
+        }else if(queryParams[0].adjacentRecords == null){
+            parentIds.addAll(queryParams[0].parentIds);
+        }else{
+            for(SObject s : queryParams[0].adjacentRecords){
+                if(s != null)
+                    parentIds.add((String)s.get(queryParams[0].commonFieldName));
+                    system.debug('parentID: ' + (String)s.get(queryParams[0].commonFieldName));
+            }
         }
         
         //4 separate query strings are combined into the queryFull string depending on the optional parameters specified
@@ -62,8 +77,17 @@ public class SOQLQueryINFilter {
         @InvocableVariable(label='Api name of the parent field' required = true )
         public string parentFieldName;
         
-        @InvocableVariable(label='Parent records' required = true)
+        @InvocableVariable(label='Api name of the common parent field between the two objects' required = false )
+        public string commonFieldName;
+        
+        @InvocableVariable(label='Adjacent records (1 of 3 required: parent ids, parent records, adjacent records)' required = false)
+        public list<SObject> adjacentRecords;
+        
+        @InvocableVariable(label='Parent records (1 of 3 required: parent ids, parent records, adjacent records)' required = false)
         public list<SObject> parentRecords;
+        
+        @InvocableVariable(label='Parent ids (1 of 3 required: parent ids, parent records, adjacent records)' required = false)
+        public list<string> parentIds;
         
         @InvocableVariable(label='Include additional filters?' required = false)
         public boolean addFilters = false;
@@ -81,7 +105,7 @@ public class SOQLQueryINFilter {
     //output parameters of the Apex action
     public class QueryResults{
         @InvocableVariable(label='Child records')
-	public list<SObject> records;        
+    public list<SObject> records;        
     }
 
 }
